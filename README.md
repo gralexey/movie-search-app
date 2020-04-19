@@ -1,0 +1,1 @@
+Example movie search app
