@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "F8CC89B2-7FD2-44CE-B824-7B8C20AAFAF5",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Movie Search.xcodeproj",
+        "identifier" : "0EE3C7D224472DE400E5CECC",
+        "name" : "Movie SearchTests"
+      }
+    }
+  ],
+  "version" : 1
+}
