@@ -7,12 +7,19 @@
 
 import UIKit
 
-protocol NetworkService {
-    func search(for movie: String, completionHandler: @escaping ([MovieModel]?, NetworkServiceError?) -> Void)
-    func getPoster(_ poster: String, completionHandler: @escaping (UIImage?) -> Void) -> Disposable?
+private let searchAPIURLString = "https://api.themoviedb.org/3/search/movie"
+private let APIKey = "2a61185ef6a27f400fd92820ad9e8537"
+private let posterAPIURLString = "https://image.tmdb.org/t/p/w600_and_h900_bestv2"
+
+typealias MoviesRequestResult = Result<[MovieModel], NetworkServiceError>
+typealias ImageRequestResult = Result<UIImage, NetworkServiceError>
+
+protocol NetworkServiceProtocol {
+    func search(forMovie movie: String, completionHandler: @escaping (MoviesRequestResult) -> Void)
+    func getPoster(_ poster: String, completionHandler: @escaping (ImageRequestResult) -> Void) -> Disposable?
 }
 
-enum NetworkServiceError {
+enum NetworkServiceError: Error {
     case badResponse, parsingError, constructingRequestError
 }
 
@@ -28,28 +35,28 @@ class Disposable {
     }
 }
 
-class NetworkAPI: NSObject, NetworkService {
+class NetworkAPI: NetworkServiceProtocol {
     
     private let imageCache = ImageCache()
     lazy private var session = URLSession.shared
-    
-    typealias ImageRequestHandler = (UIImage?) -> Void
+
+    typealias ImageRequestHandler = (ImageRequestResult) -> Void
     private var imageRequestsHandlers = [URL: [ImageRequestHandler]]()
     
-    func search(for movie: String, completionHandler: @escaping ([MovieModel]?, NetworkServiceError?) -> Void) {
-        var urlComponents = URLComponents(string: Constants.searchAPIURLString)
-        urlComponents?.queryItems = [ URLQueryItem(name: "api_key", value: Constants.APIKey),
+    func search(forMovie movie: String, completionHandler: @escaping (MoviesRequestResult) -> Void) {
+        var urlComponents = URLComponents(string: searchAPIURLString)
+        urlComponents?.queryItems = [ URLQueryItem(name: "api_key", value: APIKey),
                                       URLQueryItem(name: "query", value: movie) ]
 
         guard let url = urlComponents?.url else {
-            completionHandler(nil, NetworkServiceError.constructingRequestError)
+            completionHandler(Result.failure(NetworkServiceError.constructingRequestError))
             return
         }
         
         query(url) { data, error in
             guard let data = data else {
                 DispatchQueue.main.async {
-                    completionHandler(nil, NetworkServiceError.badResponse)
+                    completionHandler(Result.failure(NetworkServiceError.badResponse))
                 }
                 return
             }
@@ -57,24 +64,24 @@ class NetworkAPI: NSObject, NetworkService {
                 let page = try JSONDecoder().decode(PageModel.self, from: data)
                 let moviesModels = page.results
                 DispatchQueue.main.async {
-                    completionHandler(moviesModels, nil)
+                    completionHandler(Result.success(moviesModels))
                 }
             }
             catch {
                 DispatchQueue.main.async {
-                    completionHandler(nil, NetworkServiceError.parsingError)
+                    completionHandler(Result.failure(NetworkServiceError.parsingError))
                 }
             }
         }
     }
     
-    func getPoster(_ poster: String, completionHandler: @escaping (UIImage?) -> Void) -> Disposable? {
+    func getPoster(_ poster: String, completionHandler: @escaping (ImageRequestResult) -> Void) -> Disposable? {
         assert(Thread.isMainThread)
         
-        guard let posterURL = URL(string: Constants.posterAPIURLString)?.appendingPathComponent(poster) else { return nil }
+        guard let posterURL = URL(string: posterAPIURLString)?.appendingPathComponent(poster) else { return nil }
         if let cachedImage = imageCache.getImage(for: posterURL.absoluteString) {
             DispatchQueue.main.async {
-                completionHandler(cachedImage)
+                completionHandler(Result.success(cachedImage))
             }
             return nil
         }
@@ -101,7 +108,12 @@ private extension NetworkAPI {
         imageCache.setImage(image, for: url.absoluteString)
         imageRequestsHandlers[url]?.forEach({ completionHandler in
             DispatchQueue.main.async {
-                completionHandler(image)
+                if let image = image {
+                    completionHandler(Result.success(image))
+                }
+                else {
+                    completionHandler(Result.failure(NetworkServiceError.badResponse))
+                }
             }
         })
         imageRequestsHandlers[url] = nil

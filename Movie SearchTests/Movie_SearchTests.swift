@@ -30,7 +30,7 @@ class Movie_SearchTests: XCTestCase {
                 XCTFail()
             }
         }
-        searchController?.search(for: "some")
+        searchController?.search(forMovie: "some")
         wait(for: [searchTestExpectation], timeout: 10.0)
     }
     
@@ -44,7 +44,7 @@ class Movie_SearchTests: XCTestCase {
                 XCTFail()
             }
         }
-        searchController?.search(for: "")
+        searchController?.search(forMovie: "")
         wait(for: [searchTestExpectation], timeout: 10.0)
     }
 }

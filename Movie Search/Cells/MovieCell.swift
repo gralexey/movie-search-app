@@ -9,10 +9,10 @@ import UIKit
 
 class MovieCell: UITableViewCell {
     
-    @IBOutlet var posterView: UIImageView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var overviewLabel: UILabel!
-    @IBOutlet var spinner: UIActivityIndicatorView!
+    @IBOutlet private var posterView: UIImageView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var overviewLabel: UILabel!
+    @IBOutlet private var spinner: UIActivityIndicatorView!
     
     static let cellIdentifier = "MovieCell"
 

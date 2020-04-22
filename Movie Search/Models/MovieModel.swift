@@ -18,6 +18,6 @@ struct MovieModel: Decodable {
     }
     
     var isPhotoReadyForDownload: Bool {
-        return photoRecord.state == .no && posterPath != nil
+        return photoRecord.state == .notLoaded && posterPath != nil
     }
 }

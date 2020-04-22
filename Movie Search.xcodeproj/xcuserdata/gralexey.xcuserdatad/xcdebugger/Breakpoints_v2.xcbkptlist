@@ -46,8 +46,8 @@
             filePath = "Movie Search/Services/NetworkAPI.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "query(_:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,9 +78,9 @@
             filePath = "Movie Search/SearchController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "search(for:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "search(forMovie:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

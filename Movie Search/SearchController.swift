@@ -7,13 +7,16 @@
 
 import UIKit
 
+private let searchThrottleDelay: TimeInterval = 0.5
+private let maxConcurrentOperationCount = 5
+
 enum SearchStatus {
     case error(String), nothingRequested, noResult, success
 }
 
 class SearchController: NSObject {
     
-    private let networkService: NetworkService
+    private let networkService: NetworkServiceProtocol
     
     private var moviesModels = [MovieModel]() {
         didSet {
@@ -24,47 +27,33 @@ class SearchController: NSObject {
     
     var searchPerformedCallback: ((SearchStatus) -> Void)?
     
-    init(networkService: NetworkService = NetworkAPI()) {
+    init(networkService: NetworkServiceProtocol = NetworkAPI()) {
         self.networkService = networkService
-        self.downloadQueue.maxConcurrentOperationCount = Constants.maxConcurrentOperationCount
+        self.downloadQueue.maxConcurrentOperationCount = maxConcurrentOperationCount
         super.init()
     }
     
-    func search(for movieTitle: String) {
+    func search(forMovie movieTitle: String) {
         NSObject.cancelPreviousPerformRequests(withTarget: self) 
         perform(#selector(self.performSearch(_:)),
                 with: movieTitle,
-                afterDelay: Constants.searchThrottleDelay)
+                afterDelay: searchThrottleDelay)
     }
 }
 
 private extension SearchController {
     
-    class func status(with networkError: NetworkServiceError?) -> SearchStatus? {
-        guard let error = networkError else { return nil }
-        switch error {
-        case .badResponse:
-            return .error("Bad response")
-        case .parsingError:
-            return .error("Parsing error")
-        case .constructingRequestError:
-            return .error("Constructing request error")
-        }
-    }
-    
     @objc
     func performSearch(_ movieTitle: String) {
-        if movieTitle.count > 0 {
-            networkService.search(for: movieTitle) { moviesModels, error in
-                self.moviesModels = moviesModels ?? []
-                if let status = Self.status(with: error) {
-                    self.searchPerformedCallback?(status)
-                }
-                else if self.moviesModels.isEmpty {
-                    self.searchPerformedCallback?(.noResult)
-                }
-                else {
-                    self.searchPerformedCallback?(.success)
+        if !movieTitle.isEmpty {
+            networkService.search(forMovie: movieTitle) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let moviesModels):
+                    self.moviesModels = moviesModels
+                    self.searchPerformedCallback?(moviesModels.isEmpty ? .noResult : .success)
+                case .failure(let error):
+                    self.searchPerformedCallback?(error.status())
                 }
             }
         }
@@ -75,6 +64,7 @@ private extension SearchController {
     }
     
     func tryToLoadPhoto(for indexPath: IndexPath, in tableView: UITableView) {
+        guard indexPath.row < moviesModels.count else { return }
         let movieModel = moviesModels[indexPath.row]
         guard movieModel.isPhotoReadyForDownload else { return }
         movieModel.photoRecord.state = .scheduled
@@ -97,7 +87,8 @@ extension SearchController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.cellIdentifier) as? MovieCell
         else {
-            fatalError()
+            assertionFailure("error dequeuing cell")
+            return UITableViewCell()
         }
         
         let movieModel = moviesModels[indexPath.row]
@@ -118,5 +109,19 @@ extension SearchController: UITableViewDataSourcePrefetching {
             .compactMap { $0 as? DownloadOperation }
             .filter { indexPaths.contains($0.indexPath) }
             .forEach { $0.cancel() }
+    }
+}
+
+private extension NetworkServiceError {
+    
+    func status() -> SearchStatus {
+        switch self {
+        case .badResponse:
+            return .error("Bad response")
+        case .parsingError:
+            return .error("Parsing error")
+        case .constructingRequestError:
+            return .error("Constructing request error")
+        }
     }
 }

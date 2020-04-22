@@ -9,11 +9,11 @@ import UIKit
 
 class MovieSearchViewController: UIViewController {
 
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var statusLabel: UILabel!
-    @IBOutlet var searchBar: UISearchBar!
-    @IBOutlet var spinner: UIActivityIndicatorView!
-    let searchController = SearchController()
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var statusLabel: UILabel!
+    @IBOutlet private var searchBar: UISearchBar!
+    @IBOutlet private var spinner: UIActivityIndicatorView!
+    private let searchController = SearchController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +30,12 @@ class MovieSearchViewController: UIViewController {
 
 private extension MovieSearchViewController {
     
+    func tryScrollToTop() {
+        if searchController.tableView(tableView, numberOfRowsInSection: 0) > 0 {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
     func setupSearchCallback() {
         searchController.searchPerformedCallback = { [weak self] status in
             guard let self = self else { return }
@@ -40,7 +46,7 @@ private extension MovieSearchViewController {
             switch status {
             case .success:
                 self.statusLabel.isHidden = true
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.tryScrollToTop()
             case .noResult:
                 self.statusLabel.text = "No result"
                 self.statusLabel.isHidden = false
@@ -62,11 +68,11 @@ private extension MovieSearchViewController {
     
     func setInitialStatus() {
         statusLabel.isHidden = false
-        statusLabel.text = "IMbd"
+        statusLabel.text = "IMdb"
     }
     
-    func search(for movieTitle: String) {
-        searchController.search(for: movieTitle)
+    func search(forMovie movieTitle: String) {
+        searchController.search(forMovie: movieTitle)
         spinner.startAnimating()
     }
 }
@@ -74,6 +80,6 @@ private extension MovieSearchViewController {
 extension MovieSearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        search(for: searchText)
+        search(forMovie: searchText)
     }
 }

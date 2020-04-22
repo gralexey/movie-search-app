@@ -7,13 +7,13 @@
 
 import UIKit
 
-class PhotoRecord: NSObject {
+class PhotoRecord {
     
-    var state = State.no
+    var state = State.notLoaded
     var loadedImage: UIImage?
     
     enum State {
-        case no, scheduled, loading, loaded, error, noPicture
+        case notLoaded, scheduled, loading, loaded, error, noPicture
     }
     
     var image: UIImage {

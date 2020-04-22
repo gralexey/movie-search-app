@@ -10,7 +10,7 @@ import UIKit
 class DownloadOperation: Operation {
 
     private let movieModel: MovieModel
-    private let networkService: NetworkService
+    private let networkService: NetworkServiceProtocol
     private let finishBlock: () -> Void
     var downloadTaskDisposal: Disposable?
     let indexPath: IndexPath
@@ -19,7 +19,7 @@ class DownloadOperation: Operation {
     
     init(indexPath: IndexPath,
          movieModel: MovieModel,
-         networkService: NetworkService,
+         networkService: NetworkServiceProtocol,
          finishBlock: @escaping () -> Void) {
         self.indexPath = indexPath
         self.movieModel = movieModel
@@ -37,10 +37,15 @@ class DownloadOperation: Operation {
         
         if let posterPath = movieModel.posterPath {
             DispatchQueue.main.async {
-                self.downloadTaskDisposal = self.networkService.getPoster(posterPath) { [weak self] image in
+                self.downloadTaskDisposal = self.networkService.getPoster(posterPath) { [weak self] result in
                     guard let self = self, !self.isCancelled else { return }
-                    self.movieModel.photoRecord.loadedImage = image
-                    self.movieModel.photoRecord.state = (image != nil) ? .loaded : .error
+                    switch result {
+                    case .success(let image):
+                        self.movieModel.photoRecord.loadedImage = image
+                        self.movieModel.photoRecord.state = .loaded
+                    case .failure(_):
+                        self.movieModel.photoRecord.state = .error
+                    }
                     self.semaphore.signal()
                     self.finishBlock()
                 }
@@ -57,7 +62,7 @@ class DownloadOperation: Operation {
         semaphore.signal()
         let state = movieModel.photoRecord.state
         if state != .loaded && state != .error {
-            movieModel.photoRecord.state = .no
+            movieModel.photoRecord.state = .notLoaded
         }
         downloadTaskDisposal?.dispose()
     }

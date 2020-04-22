@@ -11,13 +11,12 @@
 		0E0FE8AC2449FB46001E3DB3 /* DownloadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FE8AA2449FB46001E3DB3 /* DownloadOperation.swift */; };
 		0E0FE8AE244A0B74001E3DB3 /* PhotoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FE8AD244A0B74001E3DB3 /* PhotoRecord.swift */; };
 		0E0FE8AF244A0B74001E3DB3 /* PhotoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FE8AD244A0B74001E3DB3 /* PhotoRecord.swift */; };
-		0E40D9FA244767720097540B /* WebImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40D9F9244767720097540B /* WebImageCache.swift */; };
-		0E9A2A7C244C631A0061CE16 /* MockNetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A2A7B244C631A0061CE16 /* MockNetworkAPI.swift */; };
+		0E150327244F886500821CF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7C224472DE200E5CECC /* SceneDelegate.swift */; };
+		0E40D9FA244767720097540B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40D9F9244767720097540B /* ImageCache.swift */; };
 		0E9A2A7E244C65CD0061CE16 /* MockNetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A2A7B244C631A0061CE16 /* MockNetworkAPI.swift */; };
-		0E9A2A7F244C68E10061CE16 /* WebImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40D9F9244767720097540B /* WebImageCache.swift */; };
+		0E9A2A7F244C68E10061CE16 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40D9F9244767720097540B /* ImageCache.swift */; };
 		0E9A2A80244C74BD0061CE16 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7F1244741C600E5CECC /* SearchController.swift */; };
 		0EE3C7C124472DE200E5CECC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7C024472DE200E5CECC /* AppDelegate.swift */; };
-		0EE3C7C324472DE200E5CECC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7C224472DE200E5CECC /* SceneDelegate.swift */; };
 		0EE3C7C524472DE200E5CECC /* MovieSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7C424472DE200E5CECC /* MovieSearchViewController.swift */; };
 		0EE3C7C824472DE200E5CECC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EE3C7C624472DE200E5CECC /* Main.storyboard */; };
 		0EE3C7CA24472DE400E5CECC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EE3C7C924472DE400E5CECC /* Assets.xcassets */; };
@@ -25,8 +24,6 @@
 		0EE3C7D824472DE400E5CECC /* Movie_SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7D724472DE400E5CECC /* Movie_SearchTests.swift */; };
 		0EE3C7E424472E2900E5CECC /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7E324472E2900E5CECC /* NetworkAPI.swift */; };
 		0EE3C7E524472E2900E5CECC /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7E324472E2900E5CECC /* NetworkAPI.swift */; };
-		0EE3C7E824472E7800E5CECC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7E724472E7800E5CECC /* Constants.swift */; };
-		0EE3C7E924472E7800E5CECC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7E724472E7800E5CECC /* Constants.swift */; };
 		0EE3C7EC244735AB00E5CECC /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7EB244735AB00E5CECC /* MovieModel.swift */; };
 		0EE3C7ED244735AB00E5CECC /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7EB244735AB00E5CECC /* MovieModel.swift */; };
 		0EE3C7EF244737A300E5CECC /* PageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3C7EE244737A300E5CECC /* PageModel.swift */; };
@@ -49,7 +46,7 @@
 /* Begin PBXFileReference section */
 		0E0FE8AA2449FB46001E3DB3 /* DownloadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadOperation.swift; sourceTree = "<group>"; };
 		0E0FE8AD244A0B74001E3DB3 /* PhotoRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRecord.swift; sourceTree = "<group>"; };
-		0E40D9F9244767720097540B /* WebImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageCache.swift; sourceTree = "<group>"; };
+		0E40D9F9244767720097540B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		0E9A2A7B244C631A0061CE16 /* MockNetworkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkAPI.swift; sourceTree = "<group>"; };
 		0E9A2A7D244C64CF0061CE16 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = TestPlan.xctestplan; path = "Movie SearchTests/TestPlan.xctestplan"; sourceTree = SOURCE_ROOT; };
 		0EE3C7BD24472DE200E5CECC /* Movie Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie Search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,7 +61,6 @@
 		0EE3C7D724472DE400E5CECC /* Movie_SearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_SearchTests.swift; sourceTree = "<group>"; };
 		0EE3C7D924472DE400E5CECC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0EE3C7E324472E2900E5CECC /* NetworkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPI.swift; sourceTree = "<group>"; };
-		0EE3C7E724472E7800E5CECC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0EE3C7EB244735AB00E5CECC /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
 		0EE3C7EE244737A300E5CECC /* PageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModel.swift; sourceTree = "<group>"; };
 		0EE3C7F1244741C600E5CECC /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
@@ -141,7 +137,7 @@
 			children = (
 				0EE3C7E324472E2900E5CECC /* NetworkAPI.swift */,
 				0E9A2A7B244C631A0061CE16 /* MockNetworkAPI.swift */,
-				0E40D9F9244767720097540B /* WebImageCache.swift */,
+				0E40D9F9244767720097540B /* ImageCache.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -149,7 +145,6 @@
 		0EE3C7E624472E4F00E5CECC /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				0EE3C7E724472E7800E5CECC /* Constants.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -273,17 +268,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E9A2A7C244C631A0061CE16 /* MockNetworkAPI.swift in Sources */,
-				0E40D9FA244767720097540B /* WebImageCache.swift in Sources */,
+				0E40D9FA244767720097540B /* ImageCache.swift in Sources */,
 				0E0FE8AE244A0B74001E3DB3 /* PhotoRecord.swift in Sources */,
 				0EE3C7EC244735AB00E5CECC /* MovieModel.swift in Sources */,
 				0EE3C7F2244741C600E5CECC /* SearchController.swift in Sources */,
 				0EE3C7F62447469000E5CECC /* MovieCell.swift in Sources */,
 				0EE3C7EF244737A300E5CECC /* PageModel.swift in Sources */,
-				0EE3C7E824472E7800E5CECC /* Constants.swift in Sources */,
+				0E150327244F886500821CF5 /* SceneDelegate.swift in Sources */,
 				0EE3C7C524472DE200E5CECC /* MovieSearchViewController.swift in Sources */,
 				0EE3C7C124472DE200E5CECC /* AppDelegate.swift in Sources */,
-				0EE3C7C324472DE200E5CECC /* SceneDelegate.swift in Sources */,
 				0E0FE8AB2449FB46001E3DB3 /* DownloadOperation.swift in Sources */,
 				0EE3C7E424472E2900E5CECC /* NetworkAPI.swift in Sources */,
 			);
@@ -297,9 +290,8 @@
 				0EE3C7ED244735AB00E5CECC /* MovieModel.swift in Sources */,
 				0EE3C7F0244737A300E5CECC /* PageModel.swift in Sources */,
 				0EE3C7D824472DE400E5CECC /* Movie_SearchTests.swift in Sources */,
-				0E9A2A7F244C68E10061CE16 /* WebImageCache.swift in Sources */,
+				0E9A2A7F244C68E10061CE16 /* ImageCache.swift in Sources */,
 				0EE3C7E524472E2900E5CECC /* NetworkAPI.swift in Sources */,
-				0EE3C7E924472E7800E5CECC /* Constants.swift in Sources */,
 				0E0FE8AF244A0B74001E3DB3 /* PhotoRecord.swift in Sources */,
 				0E9A2A80244C74BD0061CE16 /* SearchController.swift in Sources */,
 				0E0FE8AC2449FB46001E3DB3 /* DownloadOperation.swift in Sources */,

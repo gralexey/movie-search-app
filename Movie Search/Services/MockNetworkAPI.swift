@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MockNetworkAPI: NetworkService {
+class MockNetworkAPI: NetworkServiceProtocol {
     
-    func search(for movie: String, completionHandler: @escaping ([MovieModel]?, NetworkServiceError?) -> Void) {
+    func search(forMovie movie: String, completionHandler: @escaping (MoviesRequestResult) -> Void) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
             let movieModel1 = MovieModel(title: "Test title 1",
                                          overview: "Test overview 1",
@@ -17,12 +17,13 @@ class MockNetworkAPI: NetworkService {
             let movieModel2 = MovieModel(title: "Test title 2",
                                          overview: "Test overview 2",
                                          posterPath: "/epTCHVcyLkT8Aqt08Ki3PWC2sUh.jpg")
-            completionHandler([movieModel1, movieModel2], nil)
+            completionHandler(Result.success([movieModel1, movieModel2]))
         }
     }
     
-    func getPoster(_ poster: String, completionHandler: @escaping (UIImage?) -> Void) -> Disposable? {
-        completionHandler(UIImage(named: "placeholder"))
+    func getPoster(_ poster: String, completionHandler: @escaping (ImageRequestResult) -> Void) -> Disposable? {
+        guard let image = UIImage(named: "placeholder") else { return nil }
+        completionHandler(Result.success(image))
         return nil
     }
 }
